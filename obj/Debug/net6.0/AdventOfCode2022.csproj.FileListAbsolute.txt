@@ -1,0 +1,15 @@
+C:\Users\jonat\source\repos\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.exe
+C:\Users\jonat\source\repos\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.dll
+C:\Users\jonat\source\repos\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.deps.json
+C:\Users\jonat\source\repos\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.runtimeconfig.json
+C:\Users\jonat\source\repos\AdventOfCode2022\bin\Debug\net6.0\AdventOfCode2022.pdb
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.csproj.AssemblyReference.cache
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.AssemblyInfoInputs.cache
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.AssemblyInfo.cs
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.csproj.CoreCompileInputs.cache
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.dll
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\refint\AdventOfCode2022.dll
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.pdb
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\AdventOfCode2022.genruntimeconfig.cache
+C:\Users\jonat\source\repos\AdventOfCode2022\obj\Debug\net6.0\ref\AdventOfCode2022.dll
