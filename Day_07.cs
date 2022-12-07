@@ -90,17 +90,13 @@ public class Day07 : Day
                 continue;
             }
         }
-
         // for each directory in the directory list, sum the sizes of all directories less than a threshold
         const int THRESHOLD = 100000;
-
         int sumOfSizes = 0;
-
         // space available on disk
         int space = 70000000 - directoryList[0].GetSize();
-        Console.WriteLine(space);
+        // space required to be freed up
         int target = 30000000 - space;
-        Console.WriteLine(target);
 
         List<int> choices = new List<int>();
 
@@ -119,11 +115,9 @@ public class Day07 : Day
 
         int[] choiceArray = choices.ToArray();
         Array.Sort(choiceArray);
-        Console.WriteLine(choiceArray.Length);
         int smallest = choiceArray[0];
 
         sw.Stop();
-
         return (sumOfSizes.ToString(), smallest.ToString());
     }
 
