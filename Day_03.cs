@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 public class Day03 : Day
 {
-    public Day03(string inputFile)
+    public Day03(int d, string inputFile) : base(d)
     {
-        DataFile = inputFile;
+        this.InputData = String.Format("{0}{1}", filepath, inputFile);
     }
 }
 

@@ -1,110 +1,50 @@
-﻿using Microsoft.VisualBasic;
-using MyExtensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.Runtime.CompilerServices;
+﻿using MyExtensions;
 using System.Text;
-using AdventOfCode2022;
-using System.Linq;
 
 class AdventOfCode
 {
-    // declare each day as a variable.
-    private Day01 d01 = new Day01("input_01.txt");
-    private Day02 d02 = new Day02("input_02.txt");
-    private Day03 d03 = new Day03("input_03.txt");
-    private Day04 d04 = new Day04("input_04.txt");
-    private Day05 d05 = new Day05("input_05.txt");
-    private Day06 d06 = new Day06("input_01.txt");
-    private Day07 d07 = new Day07("input_01.txt");
-    /*private Day08 d08 = new Day08();
-    private Day09 d09 = new Day09();
-    private Day10 d10 = new Day10();
-    private Day11 d11 = new Day11();
-    private Day12 d12 = new Day12();
-    private Day13 d13 = new Day13();
-    private Day14 d14 = new Day14();
-    private Day15 d15 = new Day15();
-    private Day16 d16 = new Day16();
-    private Day17 d17 = new Day17();
-    private Day18 d18 = new Day18();
-    private Day19 d19 = new Day19();
-    private Day20 d20 = new Day20();
-    private Day10 d10 = new Day10();*/
-
     static void Main()
     {
         Console.WriteLine(GetTitle());
-        
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        Console.WriteLine(new Day1().answer(1));
-        Console.WriteLine(new Day1().answer(3));
-        sw.Stop();
 
-        Console.WriteLine("Day 1 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
+        AdventOfCode aoc = new AdventOfCode();
+        Console.WriteLine(aoc.GetDaySolution(DateTime.Today.Day));
 
-        Day2 d2 = new Day2();
-        sw.Restart();
-        Console.WriteLine(d2.answer());
-        Console.WriteLine(d2.answer2());
-        sw.Stop();
+        Console.ReadLine();
 
-        Console.WriteLine("Day 2 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
+        Console.WriteLine(GetPreviousDays());
 
-        Day3 d3 = new Day3();
-        sw.Restart();
-        Console.WriteLine(d3.answer());
-        Console.WriteLine(d3.answer2());
-        sw.Stop();
-
-        Console.WriteLine("Day 3 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
-
-        Day4 d4 = new Day4();
-        sw.Restart();
-        Console.WriteLine(d4.answer());
-        sw.Stop();
-
-        Console.WriteLine("Day 4 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
-
-        Day5 d5 = new Day5();
-        sw.Restart();
-        Console.WriteLine(d5.answer());
-        sw.Stop();
-
-        Console.WriteLine("Day 5 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
-
-        Day6 d6 = new Day6();
-        sw.Restart();
-        Console.WriteLine(d6.answer());
-        sw.Stop();
-
-        Console.WriteLine("Day 6 execution time: {0}ms. Ticks {1}", sw.ElapsedMilliseconds, sw.ElapsedTicks);
+        for (int i = 1; i < DateTime.Today.Day; i++)
+        {
+            AdventOfCode previousDay = new AdventOfCode();
+            Console.WriteLine(previousDay.GetDaySolution(i));
+            Console.WriteLine("\n*********************************************\n");
+        }
 
         Console.ReadLine();
     }
-
-    public string GetTodaysSolution() => DateTime.Today.Day switch
+    public string GetDaySolution(int d) => d switch
     {
-        1 => d01.GetSolution(),
-        2 => d02.GetSolution(),
-        3 => d03.GetSolution(),
-        4 => d04.GetSolution(),
-        5 => d05.GetSolution(),
-        6 => d06.GetSolution(),
-        7 => d07.GetSolution(),
+        1 => new Day01(1, "input_01.txt").GetSolution(),
+        2 => new Day02(2, "input_02.txt").GetSolution(),
+        3 => new Day03(3, "input_03.txt").GetSolution(),
+        4 => new Day04(4, "input_04.txt").GetSolution(),
+        5 => new Day05(5, "input_05.txt").GetSolution(),
+        6 => new Day06(6, "input_06.txt").GetSolution(),
+        7 => new Day07(7, "input_07.txt").GetSolution(),
         _ => "\nNo puzzle today...\n"
     };
-
     public static string GetTitle()
     {
-        String title = "*********************************************\n*********************************************\n             ADVENT OF CODE 2022 \n*********************************************\n*********************************************\n\n\n";
+        String title = "*********************************************\n*********************************************\n             ADVENT OF CODE 2022 \n*********************************************\n*********************************************\n";
 
         return title;
+    }
+    public static string GetPreviousDays()
+    {
+        String separator = "\n*********************************************\n           Previous Days Solutions \n*********************************************\n";
+
+        return separator;
     }
 }
 
@@ -416,61 +356,5 @@ class Day5
         }
 
         return numbers;
-    }
-
-}
-
-
-class Day6
-{
-    public (int, int) answer()
-    {
-        string data = File.ReadAllText("C:\\Users\\jonat\\source\\repos\\AdventOfCode2022\\input_06.txt").ToLower();
-
-        (int part1, int part2) answers = (PositionAfterFirstUniqueSubstring(data, 4), PositionAfterFirstUniqueSubstring(data, 14));
-
-        return answers;
-    }
-
-    public int PositionAfterFirstUniqueSubstring(string letters, int n)
-    {
-        for(int i = 0; i < letters.Length - n; i++)
-        {
-            if (CharactersAreUnique(letters.Substring(i, n)))
-            {
-                return i+n;
-            }
-        }
-        // returns -1 if no substring has been found.
-        return -1;
-    }
-
-    public bool CharactersAreUnique(string letters)
-    {
-        List<char> chars = new List<char>();
-
-        for (int l = 0; l < letters.Length; l++)
-        {
-            if (!chars.Contains(letters[l]))
-            {
-                chars.Add(letters[l]);
-            }
-        }
-        
-        return (chars.Count == letters.Length);
-    }
-}
-
-namespace MyExtensions // must have "using MyExtensions" to grant access to the extension methods.
-{
-    static class MyExtensions // Note to self: Extension methods must be in a non-generic static class!
-    {
-        // Extention method for the String class - returns the reverse of a string.
-        public static string ReverseString(this string word) // Note to self: Methods must be static and append the type with "this "
-        {
-            char[] letters = word.ToCharArray();
-            Array.Reverse(letters);
-            return new string(letters);
-        }
     }
 }
