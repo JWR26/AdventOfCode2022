@@ -47,7 +47,6 @@ public class Day07 : Day
                     current = (current.ParentDirectory != null) ? current.ParentDirectory : current;
                     continue;
                 }
-
                 else if (terminalOutput[i] == "$ cd /")
                 {
                     current = directoryList[0];
