@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 public class Day07 : Day
 {
     public string[] terminalOutput;
+
     public Day07(int d, string inputFile) : base(d)
     {
         this.InputData = String.Format("{0}{1}", filepath, inputFile);
