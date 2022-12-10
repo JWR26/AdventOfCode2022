@@ -1,4 +1,4 @@
-﻿using AdventOfCode2022;
+﻿using AdventOfCode2022.days;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -35,6 +35,21 @@ class AdventOfCode
         8 => new Day08(8, "input_08.txt").GetSolution(),
         9 => new Day09(9, "input_09.txt").GetSolution(),
         10 => new Day10(10, "input_10.txt").GetSolution(),
+        11 => new Day11(11, "input_11.txt").GetSolution(),
+        12 => new Day12(12, "input_12.txt").GetSolution(),
+        13 => new Day13(13, "input_13.txt").GetSolution(),
+        14 => new Day14(14, "input_14.txt").GetSolution(),
+        15 => new Day15(15, "input_15.txt").GetSolution(),
+        16 => new Day16(16, "input_16.txt").GetSolution(),
+        17 => new Day17(17, "input_17.txt").GetSolution(),
+        18 => new Day18(18, "input_18.txt").GetSolution(),
+        19 => new Day19(19, "input_19.txt").GetSolution(),
+        20 => new Day20(20, "input_20.txt").GetSolution(),
+        21 => new Day21(21, "input_21.txt").GetSolution(),
+        22 => new Day22(22, "input_22.txt").GetSolution(),
+        23 => new Day23(23, "input_23.txt").GetSolution(),
+        24 => new Day24(24, "input_24.txt").GetSolution(),
+        25 => new Day25(25, "input_25.txt").GetSolution(),
         _ => "\nNo puzzle today...\n"
     };
     public static string GetTitle()
@@ -267,97 +282,4 @@ class Day4
     bool elfCovered(int[] ints) => (ints[0] <= ints[2] && ints[1] >= ints[3]) || (ints[0] >= ints[2] && ints[1] <= ints[3]);
 
     bool elfOverlapped(int[] ints) => (ints[0] <= ints[2] && ints[1] >= ints[2] || ints[0] <= ints[3] && ints[1] >= ints[3]);
-}
-
-class Day5
-{
-    public (string, string) answer()
-    {
-        string[] data = File.ReadAllText("C:\\Users\\jonat\\source\\repos\\AdventOfCode2022\\input_05.txt").Split("\n\n");
-
-        string[] stacks = StacksAsStrings(data[0]);
-        string[] stacksOptimised = new string[stacks.Length];
-        stacks.CopyTo(stacksOptimised, 0);
-
-        int[,] instructions = GetInstructions(data[1]);
-
-        for (int i = 0; i < instructions.GetLength(0); i++)
-        {
-            // get the "move", "from" & to "numbers" from the instructions
-            int number = instructions[i,0];
-            int from = instructions[i, 1] -1;
-            int to = instructions[i, 2] -1;
-            // CrateMover 9000 - copy the reversed box letters to the destination, then remove from origin
-            stacks[to] = string.Concat(stacks[to], stacks[from].Substring(stacks[from].Length - number).ReverseString());
-            stacks[from] = stacks[from].Substring(0, stacks[from].Length - number);
-            // CrateMover 9001 - copy box letters to the desitnation then remove from origin
-            stacksOptimised[to] = string.Concat(stacksOptimised[to], stacksOptimised[from].Substring(stacksOptimised[from].Length - number));
-            stacksOptimised[from] = stacksOptimised[from].Substring(0, stacksOptimised[from].Length - number);
-        }
-
-        // return the last letter from each stack as a string.
-        return (GetLetters(stacks), GetLetters(stacksOptimised));
-    }
-
-    public string GetLetters(string[] stacks)
-    {
-        StringBuilder sb = new StringBuilder();
-        
-        for(int i = 0; i < stacks.Length;i++)
-        {
-            sb.Append(stacks[i][stacks[i].Length - 1]);
-        }
-
-        return sb.ToString();
-    }
-
-    public string[] StacksAsStrings(string stacks)
-    {
-        // reformat the line for easy splitting
-        string[] data = stacks.Replace("    ", " [$]").Replace("] [", "][").Replace("[", "").Replace("]", "").Replace("$", " ").Split("\n");
-
-        string[] d2 = stacks.Split("\n");
-
-        string[] stackStrings = new string[9];
-
-        for (int i = 0; i < data.Length-1;i++)
-        {
-            string s = data[i];
-
-            for(int j = 0; j < s.Length; j++)
-            {
-                /* filtering whitespace here gives no performance gain, on the contrary - approx 25% slower after multiple tests.
-                string l = (stackStrings[j] != " ") ? stackStrings[j] : "";*/
-                stackStrings[j] = String.Format("{0}{1}", s[j], stackStrings[j]);
-            }
-
-        }
-
-        // remove whitespace
-        for (int i = 0; i < stackStrings.Length; i++)
-        {
-            stackStrings[i] = stackStrings[i].TrimEnd();
-        }
-
-        return stackStrings;
-    }
-    
-    public int[,] GetInstructions(string instructions)
-    {
-        string[] strings = instructions.Replace(" ","").Split('\n');
-        
-        int[,] numbers = new int[strings.Length, 3];
-
-        for (int i = 0; i < strings.Length; i++)
-        {
-            string move = strings[i].Substring(strings[i].IndexOf("move") + 4, (strings[i].IndexOf("from") - 4));
-            string from = strings[i].Substring(strings[i].IndexOf("from") + 4, (strings[i].IndexOf("to") - strings[i].IndexOf("from") - 4));
-            string to = strings[i].Substring(strings[i].IndexOf("to") + 2);
-            numbers[i, 0] = int.Parse(move);
-            numbers[i, 1] = int.Parse(from);
-            numbers[i, 2] = int.Parse(to);
-        }
-
-        return numbers;
-    }
 }

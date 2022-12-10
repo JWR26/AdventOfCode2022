@@ -1,13 +1,13 @@
-﻿using AdventOfCode2022;
+﻿using AdventOfCode2022.days;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Day01 : Day
+public class Day16 : Day
 {
-    public Day01(int d, string inputFile) : base(d)
+    public Day16(int d, string inputFile) : base(d)
     {
         this.InputData = String.Format("{0}{1}", filepath, inputFile);
     }

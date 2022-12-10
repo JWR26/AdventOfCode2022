@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using AdventOfCode2022;
+using AdventOfCode2022.days;
 
 public class Day08 : Day
 {
