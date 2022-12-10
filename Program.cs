@@ -34,6 +34,7 @@ class AdventOfCode
         7 => new Day07(7, "input_07.txt").GetSolution(),
         8 => new Day08(8, "input_08.txt").GetSolution(),
         9 => new Day09(9, "input_09.txt").GetSolution(),
+        10 => new Day10(10, "input_10.txt").GetSolution(),
         _ => "\nNo puzzle today...\n"
     };
     public static string GetTitle()
