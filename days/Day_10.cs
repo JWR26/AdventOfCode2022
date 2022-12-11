@@ -29,7 +29,6 @@ public class Day10 : Day
         int cycle = 0;
 
         // loop through the program updating x based on the instructions
-
         for (int i = 0; i < program.Length; i++)
         {
             // get the command type - first letter gives either "noop" or "addx"
@@ -57,7 +56,6 @@ public class Day10 : Day
                 xRegister.Add(X); // modified value of x stored on the register
                 continue; // move to next command
             }
-
         }
         int sumOfSignalStrenght = 0;
         // get the values of X at cycle 20 then every 40 cylces to 220
@@ -89,8 +87,6 @@ public class Day10 : Day
     
     public void displayScreen()
     {
-        Console.WriteLine("\n");
-        
         string screenData = pixels.ToString();
 
         for (int i = 0; i < screenData.Length; i+=40)
