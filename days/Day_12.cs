@@ -1,6 +1,7 @@
 ﻿using AdventOfCode2022.days;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +24,30 @@ public class Day12 : Day
         // part 1 - get the shortest distance from start to end
 
         Grid grid = new Grid(input);
-
         Node start = grid.GetPoint('S');
         Node end = grid.GetPoint('E');
-
         AStar aStar = new AStar();
 
         int distance = aStar.GetShortestDistance(start, end, grid);
 
+        int shortestFromA = distance; // initalise 'S' as the lowest point
+        
+        for (int row = 0; row < input.Length; row++)
+        {
+            for (int col = 0; col < input[row].Length; col++)
+            {
+                if (input[row][col] == 'a')
+                {
+                    Node a = new Node('a', row, col, null);
+                    int d = aStar.GetShortestDistance(a, end, grid);
+                    shortestFromA = ( d > 0 && d < shortestFromA) ? d : shortestFromA ;
+                }
+            }
+        }
+        
         sw.Stop();
-        return base.CalculateAnswer();
+
+        return ($"The shortest path from 'S' is {distance}", $"The shortest path from any 'a' is {shortestFromA}");
     }
 }
 
@@ -62,14 +77,21 @@ class AStar
             Node current = open[0];
 
             // remove the current node from the open list & add it to the closed list
-            open.Remove(current);
+            open.RemoveAt(0);
             closed.Add(current);
 
             // if the current node is the end node, the search is complete
             if ( current.Equals(end) )
             {
-                // as we are looking for a distance return the number of nodes in the closed list.
-                return closed.Count;
+                List<Node> path = new List<Node>();
+
+                while (current.sucessor != null)
+                {
+                    path.Add(current);
+                    current = current.sucessor;
+                }
+
+                return path.Count;
             }
 
             // get the current nodes neighbours
@@ -82,7 +104,7 @@ class AStar
                 // if the neighbour is on the closed list, move on to the next
                 if ( closed.Contains(neighbours[n]) )
                 {
-                    continue;
+                    continue;   
                 }
 
                 // update the cost values of the neighbour
@@ -90,26 +112,23 @@ class AStar
                 neighbours[n].CalculateManhattanDistance(end.row, end.column);
                 neighbours[n].UpdateCost();
 
-                // If the neighbour is on the open list, discard it if it has a higher cost
+                // If the neighbour is on the open list, add it if it has a lower cost
                 if ( open.Contains(neighbours[n]))
                 {
                     Node copy = open[open.IndexOf(neighbours[n])];
-                    if (copy.f < neighbours[n].f)
+                    if (copy.f > neighbours[n].f)
                     {
-                        continue;
+                        open.Add(neighbours[n]);
                     }
                 }
-
                 // add the neighbour to the open list
                 open.Add(neighbours[n]);
             }
         }
-
         // if the search has failed, return 0.
         return 0;
     }
 }
-
 
 class Grid
 {
@@ -142,7 +161,7 @@ class Grid
         if (node.column < width)
         {
             Node east = new Node(grid[node.row][node.column + 1], node.row, node.column + 1, node);
-            if (east.elevation - node.elevation < 2)
+            if ( east.elevation - node.elevation < 2 )
             {
                 neighbours.Add(east);
             }
@@ -151,7 +170,7 @@ class Grid
         if (node.row < height)
         {
             Node south = new Node(grid[node.row + 1][node.column], node.row + 1, node.column, node);
-            if (south.elevation - node.elevation < 2)
+            if ( south.elevation - node.elevation < 2 )
             {
                 neighbours.Add(south);
             }
@@ -160,29 +179,13 @@ class Grid
         if (node.column > 0)
         {
             Node west = new Node(grid[node.row][node.column - 1], node.row, node.column - 1, node);
-            if (west.elevation - node.elevation < 2)
+            if ( west.elevation - node.elevation < 2 )
             {
                 neighbours.Add(west);
             }
         }
 
         return neighbours;
-    }
-
-    public Node GetStart()
-    {
-        for (int row = 0; row < height; row++)
-        {
-            for (int column = 0; column < width; column++)
-            {
-                if (grid[row][column] == 'S')
-                {
-                    return new Node(grid[row][column], row, column, null);
-                }
-            }
-        }
-        // if not found return a default start point at 0,0
-        return new Node('S', 0, 0, null);
     }
     public Node GetPoint(char c)
     {
@@ -192,12 +195,13 @@ class Grid
             {
                 if (grid[row][column] == c)
                 {
-                    return new Node(grid[row][column], row, column, null);
+                    char elevation = (c == 'E') ? 'z' : 'a';
+                    return new Node(elevation, row, column, null);
                 }
             }
         }
         // if not found return a default start point at 0,0
-        return new Node('S', 0, 0, null);
+        return new Node(grid[0][0], 0, 0, null);
     }
 }
 
@@ -207,15 +211,15 @@ class Node : IComparable<Node>
     public int row;
     public int column;
 
-    public int f; // nodes total cost
-    public int g; // cost from start node
-    public int h; // huristic to end point - I shall use the Manhattan Distance
+    public int f = 0; // nodes total cost
+    public int g = 0; // cost from start node
+    public int h = 0; // huristic to end point - I shall use the Manhattan Distance
 
     public Node? sucessor; // can be null for the start and the end.
 
     public Node(char elevation, int r, int c, Node? sucessor)
     {
-        this.elevation = elevation;
+        this.elevation = (elevation == 'E') ? 'z' : (elevation == 'S') ? 'a' : elevation; // ensures the start and end point are identified by their elevation.
         this.row = r;
         this.column = c;
         this.sucessor = sucessor;
