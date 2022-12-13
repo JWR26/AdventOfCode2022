@@ -36,10 +36,16 @@ public class Day11 : Day
         // intialise a list of monkeys
         List<Monkey> monkeys = new List<Monkey>();
 
+        int lcm = 1;
+
         for (int m = 0; m < monkeyInfo.Length; m++)
         {
-            monkeys.Add(new Monkey(monkeyInfo[m]));
+            Monkey monkey = new Monkey(monkeyInfo[m]);
+            monkeys.Add(monkey);
+            lcm *= monkey.testThreshold;
         }
+
+        Console.WriteLine(lcm);
 
         // give each monkey it's target
         for (int m = 0; m < monkeyInfo.Length; m++)
@@ -51,7 +57,7 @@ public class Day11 : Day
         {
             for (int m = 0; m < monkeys.Count; m++)
             {
-                monkeys[m].InspectAllItems(worried);
+                monkeys[m].InspectAllItems(worried, lcm);
             }
         }
 
@@ -101,7 +107,7 @@ public class Monkey
         this.operation = lines[2].Substring(lines[2].IndexOf("= ") + 2);
         // fourth line of monkey info gives the test threshold after the word "by "
         this.testThreshold = int.Parse(lines[3].Substring(lines[3].IndexOf("by ") + 3));
-        // last two lines are who to throw the item to
+        // last two lines are who to throw the item to  
         this.target.p = lines[4][lines[4].Length - 1] - '0';
         this.target.f = lines[5][lines[5].Length - 1] - '0';
     }
@@ -112,7 +118,7 @@ public class Monkey
         failTestTarget = m[target.f];
     }
 
-    public void InspectAllItems(bool worried)
+    public void InspectAllItems(bool worried, int lcm)
     {
         while (items.Count > 0)
         {
@@ -121,7 +127,8 @@ public class Monkey
             
             int n = operation.Operate(items[0]);
 
-            items[0] = (worried) ? n : n / 3; // are you worried...
+            items[0] = (worried) ? (n % lcm) : n / 3; // are you worried...
+            // ... no i'm pissed off
 
             // monkey decides where to throw it
             if (items[0] % testThreshold == 0)

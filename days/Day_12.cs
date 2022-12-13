@@ -41,7 +41,7 @@ public class Day12 : Day
                     Node a = new Node('a', row, col, null);
                     int d = aStar.GetShortestDistance(a, end, grid);
                     shortestFromA = ( d > 0 && d < shortestFromA) ? d : shortestFromA ;
-                }
+                }   
             }
         }
         
