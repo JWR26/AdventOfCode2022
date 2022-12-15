@@ -8,9 +8,6 @@ namespace Grids
 {
     public class PointGrid
     {
-        private int height;
-        private int width;
-
         // gives the 
         private int rows;
         private int columns;
@@ -42,7 +39,7 @@ namespace Grids
             this.grid = grid;
             // initialise the private height & width variables for the grid
             this.rows = this.grid.Length - 1;
-            this.width = this.grid[0].Length - 1;
+            this.columns = this.grid[0].Length - 1;
         }
 
         /// <summary>
@@ -110,7 +107,7 @@ namespace Grids
                 }
             }
             // East
-            if (node.column < width)
+            if (node.column < columns)
             {
                 Node east = new Node(grid[node.row][node.column + 1], node.row, node.column + 1, node);
                 if (east.elevation - node.elevation < 2)
@@ -119,7 +116,7 @@ namespace Grids
                 }
             }
             // South
-            if (node.row < height)
+            if (node.row < rows)
             {
                 Node south = new Node(grid[node.row + 1][node.column], node.row + 1, node.column, node);
                 if (south.elevation - node.elevation < 2)
