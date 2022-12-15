@@ -16,12 +16,12 @@ namespace MyExtensions // must have "using MyExtensions" to grant access to the 
             return new string(letters);
         }
         // performs a mathematical operation for a given string
-        public static int Operate(this string operation, int oldValue)
+        public static ulong Operate(this string operation, ulong oldValue)
         {
             // operation takes the form "oldValue" $ "value", where $ is the operator, returning "value"
             // split the string first
             string[] parts = operation.Split(' ');
-            int value = (parts[2] == "old") ? oldValue : int.Parse(parts[2]);
+            ulong value = (parts[2] == "old") ? oldValue : ulong.Parse(parts[2]);
 
             switch (parts[1])
             {

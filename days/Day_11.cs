@@ -21,22 +21,22 @@ public class Day11 : Day
         string[] monkeyInfo = File.ReadAllText(InputData).Split("\n\n");
 
         // PART 1 - play 20 rounds and calculate monkey business
-        uint part1 = PlayMonkeyBusiness(monkeyInfo, 20, false);
+        ulong part1 = PlayMonkeyBusiness(monkeyInfo, 20, false);
 
         // PART 2 - play 10000 rounds and calculate monkey business
 
-        uint part2 = PlayMonkeyBusiness(monkeyInfo, 10000, true);
+        ulong part2 = PlayMonkeyBusiness(monkeyInfo, 10000, true);
 
         sw.Stop();
         return (part1.ToString(), part2.ToString());
     }
 
-    public uint PlayMonkeyBusiness(string[] monkeyInfo, int rounds, bool worried)
+    public ulong PlayMonkeyBusiness(string[] monkeyInfo, int rounds, bool worried)
     {
         // intialise a list of monkeys
         List<Monkey> monkeys = new List<Monkey>();
 
-        int lcm = 1;
+        ulong lcm = 1;
 
         for (int m = 0; m < monkeyInfo.Length; m++)
         {
@@ -61,7 +61,7 @@ public class Day11 : Day
             }
         }
 
-        List<uint> monkeyActivity = new List<uint>();
+        List<ulong> monkeyActivity = new List<ulong>();
 
         for (int m = 0; m < monkeys.Count; m++)
         {
@@ -71,7 +71,7 @@ public class Day11 : Day
         monkeyActivity.Sort();
         monkeyActivity.Reverse();
 
-        uint monkeyBusiness = monkeyActivity[0] * monkeyActivity[1];
+        ulong monkeyBusiness = monkeyActivity[0] * monkeyActivity[1];
 
         return monkeyBusiness;
     }
@@ -79,13 +79,13 @@ public class Day11 : Day
 
 public class Monkey
 {
-    public List<int> items = new List<int>(); // what items the monkey is currently holding
+    public List<ulong> items = new List<ulong>(); // what items the monkey is currently holding
 
     public string operation;
 
-    public uint InspectedItems = 0; // number of items a monkey has inspected
+    public ulong InspectedItems = 0; // number of items a monkey has inspected
 
-    public int testThreshold; // self explanatory
+    public ulong testThreshold; // self explanatory
 
     public Monkey passTestTarget;
     public Monkey failTestTarget;
@@ -101,12 +101,12 @@ public class Monkey
 
         for (int v = 0; v < itemStartValues.Length; v++)
         {
-            this.items.Add(int.Parse(itemStartValues[v]));
+            this.items.Add(ulong.Parse(itemStartValues[v]));
         }
         // thrid line is the operation to perform after the "= ". 
         this.operation = lines[2].Substring(lines[2].IndexOf("= ") + 2);
         // fourth line of monkey info gives the test threshold after the word "by "
-        this.testThreshold = int.Parse(lines[3].Substring(lines[3].IndexOf("by ") + 3));
+        this.testThreshold = ulong.Parse(lines[3].Substring(lines[3].IndexOf("by ") + 3));
         // last two lines are who to throw the item to  
         this.target.p = lines[4][lines[4].Length - 1] - '0';
         this.target.f = lines[5][lines[5].Length - 1] - '0';
@@ -118,16 +118,18 @@ public class Monkey
         failTestTarget = m[target.f];
     }
 
-    public void InspectAllItems(bool worried, int lcm)
+    public void InspectAllItems(bool worried, ulong lcm)
     {
         while (items.Count > 0)
         {
             // increase worry level by inspecting item
             InspectedItems++;
             
-            int n = operation.Operate(items[0]);
+            ulong n = operation.Operate(items[0]) ;
 
-            items[0] = (worried) ? (n % lcm) : n / 3; // are you worried...
+            items[0] = (worried) ? n : n / 3; // are you worried...
+
+            items[0] = items[0] % lcm;
             // ... no i'm pissed off
 
             // monkey decides where to throw it
@@ -144,7 +146,7 @@ public class Monkey
             items.RemoveAt(0);
         }
     }
-    public void ReceiveItem(int i)
+    public void ReceiveItem(ulong i)
     {
         items.Add(i);
     }

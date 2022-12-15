@@ -1,4 +1,5 @@
 ﻿using AdventOfCode2022.days;
+using Grids;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -23,7 +24,7 @@ public class Day12 : Day
 
         // part 1 - get the shortest distance from start to end
 
-        Grid grid = new Grid(input);
+        PointGrid grid = new PointGrid(input);
         Node start = grid.GetPoint('S');
         Node end = grid.GetPoint('E');
         AStar aStar = new AStar();
@@ -31,19 +32,6 @@ public class Day12 : Day
         int distance = aStar.GetShortestDistance(start, end, grid);
 
         int shortestFromA = distance; // initalise 'S' as the lowest point
-        
-        for (int row = 0; row < input.Length; row++)
-        {
-            for (int col = 0; col < input[row].Length; col++)
-            {
-                if (input[row][col] == 'a')
-                {
-                    Node a = new Node('a', row, col, null);
-                    int d = aStar.GetShortestDistance(a, end, grid);
-                    shortestFromA = ( d > 0 && d < shortestFromA) ? d : shortestFromA ;
-                }   
-            }
-        }
         
         sw.Stop();
 
@@ -55,7 +43,7 @@ public class Day12 : Day
 class AStar
 {
     // returns the number of steps to get from the start node to the end node for a given grid.
-    public int GetShortestDistance(Node start, Node end, Grid grid)
+    public int GetShortestDistance(Node start, Node end, PointGrid grid)
     {
         /*
          * We shall start by declaring two lists, one open and one closed.
@@ -129,83 +117,7 @@ class AStar
         return 0;
     }
 }
-
-class Grid
-{
-    public string[] grid;
-
-    private int height;
-    private int width;
-
-    public Grid(string[] grid)
-    {
-        this.grid = grid;
-        // initialise the private height & width variables for the grid
-        this.height = this.grid.Length - 1; 
-        this.width = this.grid[0].Length - 1;
-    }
-    // returns a list of neighbouring nodes in the four cardinal directions
-    public List<Node> GetNeighbours(Node node)
-    {
-        List<Node> neighbours = new List<Node>();
-        // North
-        if ( node.row > 0)
-        {
-            Node north = new Node(grid[node.row - 1][node.column], node.row - 1, node.column, node);
-            if ( north.elevation - node.elevation < 2 )
-            {
-                neighbours.Add(north);
-            }
-        }
-        // East
-        if (node.column < width)
-        {
-            Node east = new Node(grid[node.row][node.column + 1], node.row, node.column + 1, node);
-            if ( east.elevation - node.elevation < 2 )
-            {
-                neighbours.Add(east);
-            }
-        }
-        // South
-        if (node.row < height)
-        {
-            Node south = new Node(grid[node.row + 1][node.column], node.row + 1, node.column, node);
-            if ( south.elevation - node.elevation < 2 )
-            {
-                neighbours.Add(south);
-            }
-        }
-        // West
-        if (node.column > 0)
-        {
-            Node west = new Node(grid[node.row][node.column - 1], node.row, node.column - 1, node);
-            if ( west.elevation - node.elevation < 2 )
-            {
-                neighbours.Add(west);
-            }
-        }
-
-        return neighbours;
-    }
-    public Node GetPoint(char c)
-    {
-        for (int row = 0; row < height; row++)
-        {
-            for (int column = 0; column < width; column++)
-            {
-                if (grid[row][column] == c)
-                {
-                    char elevation = (c == 'E') ? 'z' : 'a';
-                    return new Node(elevation, row, column, null);
-                }
-            }
-        }
-        // if not found return a default start point at 0,0
-        return new Node(grid[0][0], 0, 0, null);
-    }
-}
-
-class Node : IComparable<Node>
+public class Node : IComparable<Node>
 {
     public char elevation;
     public int row;

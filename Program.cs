@@ -1,5 +1,6 @@
 ﻿using MyExtensions;
 using System.Text;
+using Grids;
 
 class AdventOfCode
 {
@@ -8,7 +9,8 @@ class AdventOfCode
         Console.WriteLine(GetTitle());
 
         AdventOfCode aoc = new AdventOfCode();
-        Console.WriteLine(aoc.GetDaySolution(DateTime.Today.Day));
+        //Console.WriteLine(aoc.GetDaySolution(DateTime.Today.Day));
+        Console.WriteLine(aoc.GetDaySolution(14));
 
         Console.ReadLine();
 
