@@ -160,6 +160,42 @@ namespace Grids
         {
             return Grid[p.row][p.column];
         }
+        /// <summary>
+        /// Replaces a given row with a row of a single character
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="c"></param>
+        public void SetAllValuesOnRow(int row, char c)
+        {
+            string newRow = new String(c, columns);
+            Grid[row] = newRow;
+        }
+
+        public void DrawGrid()
+        {
+            foreach (string line in Grid)
+            {
+                Console.WriteLine(line);
+            }
+            Console.WriteLine("\n");
+        }
+        public void DrawGrid(int from)
+        {
+            foreach (string line in Grid)
+            {
+                Console.WriteLine(line.Substring(from));
+            }
+            Console.WriteLine("\n");
+        }
+        public void DrawGrid(int from, int to)
+        {
+            foreach (string line in Grid)
+            {
+                Console.WriteLine(line.Substring(from, to - from));
+            }
+            Console.WriteLine("\n");
+        }
+
     }
 
     /// <summary>

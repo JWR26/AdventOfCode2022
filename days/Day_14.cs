@@ -21,10 +21,10 @@ public class Day14 : Day
         string rockData = File.ReadAllText(InputData);
 
         // find how low to make the grid
-        int lowestRock = FindLowestRock(rockData) + 1;
+        int lowestRock = FindLowestRock(rockData) + 2; 
 
         // initialise a grid to represent the cave. The cave will be 1000 columns wide (the sands origin will start at (0,500) so make the grid wide to allow for the pile to spread out. will initialise the rows on the grid by the lowest point of a rock.
-        PointGrid cave = new PointGrid('.', 1000, lowestRock);
+        PointGrid cave = new PointGrid('.', 1000, lowestRock + 1); // adding 1 to accout for first row being 'O'
 
         string[] rockStructures = rockData.Split('\n');
 
@@ -44,22 +44,32 @@ public class Day14 : Day
                 int xdir = Math.Sign(p1x - p0x);
                 int ydir = Math.Sign(p1y - p0y);
                 
-                for (int p = p0x; p != p1x; p+= xdir)
+                while (p0x != p1x)
                 {
-                    cave.SetPointValue(p0y, p, '#');
+                    cave.SetPointValue(p0y, p0x, '#');
+                    p0x += xdir;
                 }
-                for (int p = p0y; p != p1y; p+= ydir)
+                while (p0y != p1y)
                 {
-                    cave.SetPointValue(p, p0x, '#');
+                    cave.SetPointValue(p0y, p0x, '#');
+                    p0y += ydir;
                 }
+
+                cave.SetPointValue(p0y, p0x, '#');
             }
         }
 
         int part1 = PourSand(cave, 500);
 
+        // draw the floor
+        cave.SetAllValuesOnRow(lowestRock, '#');
+
+        int part2 = part1 + PourSand(cave, 500);
+
         sw.Stop();
-        return ($"{part1}", "part two not done");
+        return ($"{part1}", $"{part2}");
     }
+
 
     public int PourSand(PointGrid cave, int source)
     {
@@ -100,6 +110,7 @@ public class Day14 : Day
                 }
             }
             // once the sand can no longer move, and hasn't fallen into the abyss mark its position on the grid
+            cave.SetPointValue(sand);
             unitsOfSand++; // increase the count of units of sand
         }
         // at this point no more sand can pour into the cave. Return the number of sand grains in the cave.

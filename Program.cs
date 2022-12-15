@@ -9,8 +9,7 @@ class AdventOfCode
         Console.WriteLine(GetTitle());
 
         AdventOfCode aoc = new AdventOfCode();
-        //Console.WriteLine(aoc.GetDaySolution(DateTime.Today.Day));
-        Console.WriteLine(aoc.GetDaySolution(14));
+        Console.WriteLine(aoc.GetDaySolution(DateTime.Today.Day));
 
         Console.ReadLine();
 
