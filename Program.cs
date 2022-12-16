@@ -41,7 +41,7 @@ class AdventOfCode
         13 => new Day13(13, "input_13.txt").GetSolution(),
         14 => new Day14(14, "input_14.txt").GetSolution(),
         15 => new Day15(15, "input_15.txt").GetSolution(),
-        16 => new Day16(16, "input_16.txt").GetSolution(),
+        16 => new Day16(16, "test_16.txt").GetSolution(),
         17 => new Day17(17, "input_17.txt").GetSolution(),
         18 => new Day18(18, "input_18.txt").GetSolution(),
         19 => new Day19(19, "input_19.txt").GetSolution(),
