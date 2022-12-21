@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 public class Day20 : Day
 {
     public const long KEY = 811589153;
-    public Day20 (int d, string inputFile) : base(d)
+    public Day20(int d, string inputFile) : base(d)
     {
         this.InputData = String.Format("{0}{1}", filepath, inputFile);
     }
@@ -52,7 +52,7 @@ public class Day20 : Day
         for (int f = 0; f < EncryptedFile.Count; f++)
         {
 
-            if ( f == 0 )
+            if (f == 0)
             {
                 EncryptedFile[f].previous = EncryptedFile[EncryptedFile.Count - 1]; // previous of first is last in list
             }
@@ -112,7 +112,7 @@ public class Day20 : Day
         }
     }
 
-    public long SumIndicesFromZero (List<FileNumber> list)
+    public long SumIndicesFromZero(List<FileNumber> list)
     {
         FileNumber zeroFile = list.Find(f => f.Value == 0);
 
@@ -121,35 +121,11 @@ public class Day20 : Day
         {
             int num = (1000 * i) % list.Count;
             long value = zeroFile.GetNumberValue(num);
-            Console.WriteLine($"{i*1000}: {value}");
+            Console.WriteLine($"{i * 1000}: {value}");
             sum += value;
         }
 
         return sum;
-    }
-    
-    public int WrappedIndex(int old, long change, int maxIndex)
-    {
-        int wrappedIndex = old;
-        // 0 value numbers will have no "change"
-        while ( change != 0 ) 
-        {
-            wrappedIndex += Math.Sign(change); // shift the number round by 1 in the required direction
-            change -= Math.Sign(change); // subtract from positive numbers, add to negative
-            if (wrappedIndex == 0) // makes an element "fall off the front" and moves it to the back of the array
-            {
-                wrappedIndex = maxIndex;
-            }
-            else if (wrappedIndex > maxIndex ) // ensures the last number skips the first.
-            {
-                wrappedIndex %= maxIndex;
-            }
-            else if ( wrappedIndex < 0 ) // case for when index 0 is negative, it will move around the back, skipping over end numbers
-            {
-                wrappedIndex += maxIndex;
-            }
-        }
-        return wrappedIndex;
     }
 }
 /// <summary>
